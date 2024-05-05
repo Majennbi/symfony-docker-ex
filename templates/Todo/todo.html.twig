@@ -1,1 +1,30 @@
-TEST
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>To do list</h1>
+    {# Ajout d'une tâche via un formulaire #}
+    <form method="post" style="margin-bottom: 50px;">
+        <input type="text" name="task" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <ul>
+        {# Affichage de la tâche et possibilité de la barrer et de la supprimer via leur formulaire respectif #}
+        {% for key, todo in todos %}
+            <li>
+                <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                    <form method="post" action="{{ path('todo_update', {'index': key}) }}" style="all: unset;">
+                        <button type="submit" style="all: unset; text-decoration: {{ todo.done ? 'line-through' : 'none' }};">
+                            {{ todo.task }}
+                        </button>
+                    </form>
+                    <form method="post" action="{{ path('todo_delete', {'index': key}) }}">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
